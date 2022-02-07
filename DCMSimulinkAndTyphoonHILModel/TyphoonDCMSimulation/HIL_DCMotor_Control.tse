@@ -1,0 +1,536 @@
+version = 4.2
+
+//
+// Saved by sw version: 2021.4
+// Save timestamp: 21-Oct-2021 @ 10:11:38 AM
+//
+
+model "hil_dcmotor_control" {
+    configuration {
+        hil_device = "HIL604"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = True
+        reset_analog_outputs_on_sim_stop = True
+        reset_digital_outputs_on_sim_stop = True
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        ground_scope_core = False
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+        tunable_params = "component defined"
+        sp_compiler_type = "C compiler"
+        sig_stim = "off"
+    }
+
+    component Subsystem Root {
+        component Subsystem Subsystem1 {
+            layout = dynamic
+            component gen_gain Gain1 {
+                gain = "((370/(2.2*247.138))+(2.2*11.35/247.138))/(220/590)"
+            }
+            [
+                position = 7464, 7912
+            ]
+
+            component gen_sum Sum1 {
+                signs = "+--"
+            }
+            [
+                position = 7648, 7920
+            ]
+
+            component gen_sum Sum2 {
+                signs = "+-"
+            }
+            [
+                position = 7632, 8176
+            ]
+
+            component gen_gain La_inv {
+                gain = "1/0.1677"
+            }
+            [
+                position = 7784, 7920
+            ]
+
+            component gen_integrator Integrator1 {
+            }
+            [
+                position = 7944, 7920
+            ]
+
+            component gen_gain Ra {
+                _tunable = "True"
+                gain = "11.35"
+            }
+            [
+                position = 7880, 8016
+                rotation = down
+            ]
+
+            component gen_gain Gain2 {
+                gain = "(370/(2.2*247.138))/(220/590)"
+            }
+            [
+                position = 7448, 8136
+            ]
+
+            component gen_gain J_inv {
+                gain = "1/0.095257"
+            }
+            [
+                position = 7760, 8176
+            ]
+
+            component gen_integrator Integrator2 {
+            }
+            [
+                position = 7888, 8176
+            ]
+
+            component gen_gain "rad-sec_inv to rpm" {
+                gain = "60/(2*3.142)"
+            }
+            [
+                position = 8048, 8144
+            ]
+
+            component gen_sum Sum3 {
+                signs = "+-"
+            }
+            [
+                position = 7600, 8352
+            ]
+
+            component gen_gain Lf_inv {
+                gain = "1/0.2"
+            }
+            [
+                position = 7760, 8352
+            ]
+
+            component gen_integrator Integrator3 {
+            }
+            [
+                position = 7888, 8352
+            ]
+
+            component gen_gain Rf {
+                _tunable = "True"
+                gain = "590"
+            }
+            [
+                position = 7760, 8448
+                rotation = down
+            ]
+
+            component gen_product Product1 {
+            }
+            [
+                position = 7536, 7920
+            ]
+
+            component gen_product Product2 {
+            }
+            [
+                position = 7544, 8128
+            ]
+
+            component gen_product Product3 {
+            }
+            [
+                position = 7512, 7848
+            ]
+
+            component gen_product Product4 {
+            }
+            [
+                position = 7544, 8240
+            ]
+
+            component gen_product Product5 {
+            }
+            [
+                position = 7488, 8344
+            ]
+
+            component src_constant Vfn {
+                value = "220"
+            }
+            [
+                position = 7400, 8376
+            ]
+
+            component gen_probe Speed {
+            }
+            [
+                position = 8160, 8144
+            ]
+
+            component gen_probe I_Field {
+            }
+            [
+                position = 8160, 8352
+            ]
+
+            component gen_probe I_Armature {
+            }
+            [
+                position = 8152, 7904
+            ]
+
+            port Van {
+                position = auto:auto
+                kind = sp
+                direction =  out
+                sp_type {
+                    default = auto
+                    readonly = True
+                }
+            }
+            [
+                position = 7392, 7824
+            ]
+
+            port Tl {
+                position = auto:auto
+                kind = sp
+                direction =  out
+                sp_type {
+                    default = auto
+                    readonly = True
+                }
+            }
+            [
+                position = 7440, 8200
+            ]
+
+            port CV {
+                label = "CV"
+                position = left:auto
+                kind = sp
+                direction =  out
+                sp_type {
+                    default = auto
+                    readonly = True
+                }
+            }
+            [
+                position = 7232, 8096
+            ]
+
+            tag From1 {
+                value = "w"
+                scope = local
+                kind = sp
+                direction = out
+            }
+            [
+                position = 7368, 7912
+                size = 60, 20
+            ]
+
+            tag Goto1 {
+                value = "w"
+                scope = local
+                kind = sp
+                direction = in
+            }
+            [
+                position = 8112, 8224
+                size = 60, 20
+            ]
+
+            tag From2 {
+                value = "Ia"
+                scope = local
+                kind = sp
+                direction = out
+            }
+            [
+                position = 7360, 8136
+                size = 60, 20
+            ]
+
+            tag Goto2 {
+                value = "Ia"
+                scope = local
+                kind = sp
+                direction = in
+            }
+            [
+                position = 8152, 7976
+                size = 60, 20
+            ]
+
+            tag Goto3 {
+                value = "If"
+                scope = local
+                kind = sp
+                direction = in
+            }
+            [
+                position = 8144, 8416
+                size = 60, 20
+            ]
+
+            tag From3 {
+                value = "If"
+                scope = local
+                kind = sp
+                direction = out
+            }
+            [
+                position = 7432, 7992
+                size = 60, 20
+            ]
+
+            tag From4 {
+                value = "If"
+                scope = local
+                kind = sp
+                direction = out
+            }
+            [
+                position = 7440, 8080
+                size = 60, 20
+            ]
+
+            junction Junction6 sp
+            [
+                position = 8000, 8352
+            ]
+
+            junction Junction12 sp
+            [
+                position = 7280, 8248
+            ]
+
+            junction Junction13 sp
+            [
+                position = 7280, 8096
+            ]
+
+            junction Junction15 sp
+            [
+                position = 8096, 7976
+            ]
+
+            junction Junction17 sp
+            [
+                position = 8032, 8352
+            ]
+
+            junction Junction18 sp
+            [
+                position = 8096, 7920
+            ]
+
+            junction Junction19 sp
+            [
+                position = 7968, 8176
+            ]
+
+            connect From1 Gain1.in as Connection2
+            connect Sum1.out La_inv.in as Connection4
+            connect La_inv.out Integrator1.in as Connection5
+            connect Sum1.in2 Ra.out as Connection7
+            [
+                breakpoints = 7608, 7936; 7608, 8016
+            ]
+            connect From2 Gain2.in as Connection19
+            connect Sum2.out J_inv.in as Connection21
+            connect Integrator2.in J_inv.out as Connection22
+            connect Lf_inv.in Sum3.out as Connection37
+            connect Integrator3.in Lf_inv.out as Connection38
+            connect Sum3.in1 Rf.out as Connection40
+            [
+                breakpoints = 7536, 8368; 7536, 8448
+            ]
+            connect Integrator3.out Junction6 as Connection41
+            connect Junction6 Rf.in as Connection42
+            [
+                breakpoints = 8000, 8352; 8000, 8448
+            ]
+            connect Product1.in Gain1.out as Connection53
+            connect Sum1.in1 Product1.out as Connection54
+            connect From3 Product1.in1 as Connection58
+            connect Product2.in1 Gain2.out as Connection60
+            connect From4 Product2.in as Connection61
+            connect Product2.out Sum2.in as Connection62
+            connect Van Product3.in as Connection63
+            connect Product3.out Sum1.in as Connection65
+            connect Tl Product4.in as Connection67
+            connect Product4.out Sum2.in1 as Connection68
+            connect Product5.out Sum3.in as Connection72
+            connect Product4.in1 Junction12 as Connection74
+            connect Product5.in Junction12 as Connection76
+            connect Product3.in1 Junction13 as Connection78
+            [
+                breakpoints = 7472, 7872; 7280, 7872; 7280, 7880; 7280, 8072; 7280, 8072
+            ]
+            connect CV Junction13 as Connection80
+            connect Vfn.out Product5.in1 as Connection84
+            connect Ra.in Junction15 as Connection95
+            [
+                breakpoints = 8096, 8016; 8096, 8016
+            ]
+            connect Goto2 Junction15 as Connection97
+            connect Speed.in "rad-sec_inv to rpm.out" as Connection102
+            connect Junction6 Junction17 as Connection107
+            [
+                breakpoints = 8000, 8352
+            ]
+            connect Junction17 I_Field.in as Connection108
+            [
+                breakpoints = 8048, 8352; 8048, 8352
+            ]
+            connect Goto3 Junction17 as Connection109
+            connect Integrator1.out Junction18 as Connection111
+            connect Junction18 Junction15 as Connection112
+            [
+                breakpoints = 8096, 7920; 8096, 7920; 8096, 7920; 8096, 7920; 8096, 7920; 8096, 7976; 8096, 7976; 8096, 7976
+            ]
+            connect I_Armature.in Junction18 as Connection113
+            connect Integrator2.out Junction19 as Connection115
+            [
+                breakpoints = 7944, 8176; 7944, 8176
+            ]
+            connect Junction19 Goto1 as Connection116
+            [
+                breakpoints = 7968, 8176; 7968, 8224
+            ]
+            connect "rad-sec_inv to rpm.in" Junction19 as Connection117
+            connect Junction13 Junction12 as Connection121
+            [
+                breakpoints = 7280, 8096; 7280, 8168
+            ]
+        }
+        [
+            position = 8144, 7960
+            size = 72, 232
+        ]
+
+        component src_scada_input Van {
+            def_value = "220"
+            max = "230"
+            min = "100"
+            unit = ""
+        }
+        [
+            position = 8008, 7960
+        ]
+
+        component src_scada_input Tl {
+            def_value = "3"
+            max = "5"
+            min = "0"
+            unit = ""
+        }
+        [
+            position = 8008, 8056
+        ]
+
+        component src_scada_input CV {
+            max = "1"
+            min = "0"
+            unit = ""
+        }
+        [
+            position = 8008, 7864
+        ]
+
+        connect Subsystem1.Van Van.out as Connection1
+        connect Subsystem1.Tl Tl.out as Connection2
+        connect CV.out Subsystem1.CV as Connection4
+    }
+
+    default {
+        gen_gain {
+            gain = "1"
+            multiplication = "Element-wise(K.*u)"
+            _tunable = "False"
+            execution_rate = "inherit"
+        }
+
+        gen_integrator {
+            show_reset = "none"
+            reset_type = "asynchronous"
+            show_init_condition = "internal"
+            init_value = "0"
+            limit_output = "False"
+            limit_upper = "inf"
+            limit_lower = "-inf"
+            show_state = "False"
+            state_port_type = "inherit"
+            execution_rate = "inherit"
+        }
+
+        gen_probe {
+            addr = "0"
+            override_signal_name = "False"
+            signal_name = ""
+            signal_type = "generic"
+            streaming_en = "False"
+            streaming_er_idx = "0"
+            execution_rate = "inherit"
+        }
+
+        gen_product {
+            signs = "2"
+            execution_rate = "inherit"
+        }
+
+        gen_sum {
+            signs = "2"
+            execution_rate = "inherit"
+        }
+
+        src_constant {
+            value = "1"
+            signal_type = "real"
+            execution_rate = "100e-6"
+            _tunable = "False"
+        }
+
+        src_scada_input {
+            addr = "0"
+            format = "real"
+            override_signal_name = "False"
+            signal_name = ""
+            signal_type = "real"
+            min = "-1e6"
+            max = "1e6"
+            def_value = "0"
+            unit = " "
+            execution_rate = "100e-6"
+        }
+    }
+}
